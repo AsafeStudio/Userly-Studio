@@ -62,6 +62,18 @@ export const Services: React.FC = () => {
             </div>
           ))}
         </div>
+
+        {/* Novo botão de CTA adicionado */}
+        <div className="mt-16 text-center">
+          <a
+            href="#contact"
+            className="inline-flex items-center justify-center px-10 py-5 text-lg font-semibold text-white bg-primary-600 rounded-2xl hover:bg-primary-700 transition-all shadow-xl shadow-primary-500/20 group font-display"
+          >
+            Solicitar projeto
+            <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+          </a>
+          <p className="mt-4 text-slate-500 text-sm">Respostas em até 24h úteis.</p>
+        </div>
       </div>
     </section>
   );
