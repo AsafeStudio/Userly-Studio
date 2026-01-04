@@ -1,58 +1,520 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Userly | Sites Profissionais, UX & SEO</title>
     <meta name="description" content="Sites profissionais com UX, SEO e tecnologia moderna. Transformamos usabilidade e performance em resultados reais." />
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Space Grotesk', 'sans-serif'],
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f2f0fe',
+                            100: '#e5e1fc',
+                            200: '#c8bff9',
+                            500: '#7f5af0',
+                            600: '#6244bb',
+                            700: '#4a338c',
+                            900: '#2b1b5e',
+                        },
+                        dark: {
+                            900: '#1f1f23',
+                            800: '#2a2a30',
+                        }
+                    }
+                },
             },
-            colors: {
-              primary: {
-                50: '#f2f0fe',
-                100: '#e5e1fc',
-                200: '#c8bff9',
-                500: '#7f5af0', // New Request Color
-                600: '#6244bb',
-                700: '#4a338c',
-                900: '#2b1b5e',
-              },
-              dark: {
-                900: '#1f1f23', // New Dark Background
-                800: '#2a2a30',
-              }
-            }
-          },
-        },
-      }
+        }
     </script>
     <style>
-      /* Smooth scrolling */
-      html {
-        scroll-behavior: smooth;
-      }
+        html { scroll-behavior: smooth; }
+        .hidden { display: none; }
+        .page-content { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #7f5af0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6244bb; }
+        
+        .faq-answer { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.1",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
-    "react/": "https://esm.sh/react@^19.2.1/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.559.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.32.0"
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
   }
 }
 </script>
 </head>
-  <body class="bg-white text-slate-900 antialiased selection:bg-primary-500 selection:text-white">
-    <div id="root"></div>
-  </body>
+<body class="bg-white text-slate-900 antialiased selection:bg-primary-500 selection:text-white font-sans">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+                    <img src="https://i.imgur.com/aj3S2NQ.png" alt="Userly" class="h-10 w-auto object-contain" />
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="navigateTo('home')" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">Início</button>
+                    <button onclick="navigateTo('about')" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">Sobre</button>
+                    <button onclick="navigateTo('services')" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">Serviços</button>
+                    <button onclick="navigateTo('home', 'faq')" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">FAQ</button>
+                    <a href="#contact" class="bg-dark-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-dark-800 transition-colors shadow-lg font-display">Solicitar projeto</a>
+                </div>
+                <button class="md:hidden text-slate-600" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-xl px-4 py-6 space-y-2">
+            <button onclick="navigateTo('home')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-md">Início</button>
+            <button onclick="navigateTo('about')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-md">Sobre</button>
+            <button onclick="navigateTo('services')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-md">Serviços</button>
+            <button onclick="navigateTo('home', 'faq')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-md">FAQ</button>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block w-full text-center bg-primary-600 text-white px-5 py-3 rounded-lg text-base font-medium mt-4 font-display">Solicitar projeto</a>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page-content">
+            <!-- Hero -->
+            <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white text-center">
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-primary-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs font-semibold uppercase tracking-wide text-primary-700 mb-8">
+                            <span class="w-2 h-2 rounded-full bg-primary-600 animate-pulse"></span> Tecnologia Moderna
+                        </div>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold font-display text-slate-900 tracking-tight leading-[1.1] mb-6">
+                            Sites profissionais com <br class="hidden lg:block" />
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-500">UX, SEO e Tecnologia</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                            Transformamos usabilidade, performance técnica e design limpo em resultados reais. Criamos estruturas digitais que convertem e carregam rápido.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-all shadow-lg font-display">
+                                Solicitar projeto <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                            </a>
+                            <button onclick="navigateTo('services')" class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-display">
+                                Ver serviços
+                            </button>
+                        </div>
+                        <div class="mt-12 flex items-center justify-center gap-4 text-sm text-slate-500">
+                           <div class="flex -space-x-2">
+                             <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white overflow-hidden"><img src="https://picsum.photos/32/32?random=1" alt="Avatar"></div>
+                             <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white overflow-hidden"><img src="https://picsum.photos/32/32?random=2" alt="Avatar"></div>
+                             <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white overflow-hidden"><img src="https://picsum.photos/32/32?random=3" alt="Avatar"></div>
+                           </div>
+                           <p>Mais de 50+ projetos entregues com alta performance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Differentiators -->
+            <section class="py-24 bg-dark-900 text-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 class="text-primary-500 font-semibold tracking-wide uppercase text-sm mb-3 font-display">O que nos torna diferentes</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-16 text-white font-display">Tecnologia moderna + UX estratégico</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="p-8 bg-dark-800/50 rounded-2xl border border-white/5 text-left group hover:bg-dark-800 transition-all">
+                            <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-6"><i data-lucide="layout-template"></i></div>
+                            <h4 class="text-xl font-bold mb-3 font-display">UX Estratégico</h4>
+                            <p class="text-slate-400">Arquitetura clara e navegação inteligente orientada a conversão.</p>
+                        </div>
+                        <div class="p-8 bg-dark-800/50 rounded-2xl border border-white/5 text-left group hover:bg-dark-800 transition-all">
+                            <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-6"><i data-lucide="search"></i></div>
+                            <h4 class="text-xl font-bold mb-3 font-display">SEO Técnico</h4>
+                            <p class="text-slate-400">Código limpo e estrutura escalável otimizada para o Google.</p>
+                        </div>
+                        <div class="p-8 bg-dark-800/50 rounded-2xl border border-white/5 text-left group hover:bg-dark-800 transition-all">
+                            <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-6"><i data-lucide="zap"></i></div>
+                            <h4 class="text-xl font-bold mb-3 font-display">Velocidade</h4>
+                            <p class="text-slate-400">React e Next.js para desempenho que construtores visuais não alcançam.</p>
+                        </div>
+                        <div class="p-8 bg-dark-800/50 rounded-2xl border border-white/5 text-left group hover:bg-dark-800 transition-all">
+                            <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-6"><i data-lucide="bot"></i></div>
+                            <h4 class="text-xl font-bold mb-3 font-display">IA Aplicada</h4>
+                            <p class="text-slate-400">Aceleramos a produção mantendo a precisão e o toque humano.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Benefits -->
+            <section class="py-24 bg-white border-b border-slate-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div class="relative bg-white p-8 rounded-3xl shadow-xl border border-slate-100 order-2 lg:order-1">
+                            <div class="flex items-center space-x-2 mb-6"><div class="w-3 h-3 bg-red-400 rounded-full"></div><div class="w-3 h-3 bg-yellow-400 rounded-full"></div><div class="w-3 h-3 bg-green-400 rounded-full"></div></div>
+                            <div class="h-32 bg-slate-50 rounded border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-400">Clean Code Architecture</div>
+                            <div class="mt-8 flex justify-between">
+                                <div class="text-center">
+                                    <div class="text-sm text-slate-500">Perf</div>
+                                    <div class="text-xl font-bold text-green-600">100/100</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-sm text-slate-500">SEO</div>
+                                    <div class="text-xl font-bold text-green-600">100/100</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-sm text-slate-500">UX</div>
+                                    <div class="text-xl font-bold text-green-600">100/100</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-1 lg:order-2">
+                            <h2 class="text-3xl font-bold text-slate-900 mb-8 font-display">Benefícios reais para negócios que querem crescer</h2>
+                            <ul class="space-y-6">
+                                <li class="flex items-start gap-4"><i data-lucide="check-circle-2" class="text-green-500"></i><span class="text-lg text-slate-700 font-medium">Carregamento ultrarrápido</span></li>
+                                <li class="flex items-start gap-4"><i data-lucide="check-circle-2" class="text-green-500"></i><span class="text-lg text-slate-700 font-medium">SEO de alta performance pronto desde o dia 1</span></li>
+                                <li class="flex items-start gap-4"><i data-lucide="check-circle-2" class="text-green-500"></i><span class="text-lg text-slate-700 font-medium">Experiência premium projetada para conversão</span></li>
+                                <li class="flex items-start gap-4"><i data-lucide="check-circle-2" class="text-green-500"></i><span class="text-lg text-slate-700 font-medium">Código seguro e escalável</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Restoration Section -->
+            <section id="faq" class="py-24 bg-white">
+                <div class="max-w-4xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center mb-12 font-display">Perguntas Frequentes</h2>
+                    <div class="space-y-4" id="faq-container">
+                        <!-- Items will be toggled by JS -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50">
+                            <button onclick="toggleFaq(0)" class="w-full px-6 py-5 text-left flex justify-between items-center group">
+                                <span class="font-medium text-slate-900 group-hover:text-primary-600 transition-colors text-lg">Vocês trabalham com WordPress ou Elementor?</span>
+                                <i data-lucide="plus" id="faq-icon-0" class="text-primary-600 w-5 h-5 transition-transform"></i>
+                            </button>
+                            <div id="faq-answer-0" class="hidden px-6 pb-6 text-slate-600 border-t border-slate-100 pt-4 faq-answer">
+                                <p class="mb-4 font-bold text-slate-900">Não.</p>
+                                <p class="mb-4">Usamos tecnologias modernas como React, Next.js e TailwindCSS para garantir velocidade máxima, segurança e SEO superior.</p>
+                                <ul class="list-disc pl-5 space-y-1 mb-4 text-sm">
+                                    <li>Velocidade máxima</li>
+                                    <li>Segurança avançada</li>
+                                    <li>SEO técnico robusto</li>
+                                    <li>Escalabilidade total</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50">
+                            <button onclick="toggleFaq(1)" class="w-full px-6 py-5 text-left flex justify-between items-center group">
+                                <span class="font-medium text-slate-900 group-hover:text-primary-600 transition-colors text-lg">Quanto tempo leva para entregar um projeto?</span>
+                                <i data-lucide="plus" id="faq-icon-1" class="text-primary-600 w-5 h-5 transition-transform"></i>
+                            </button>
+                            <div id="faq-answer-1" class="hidden px-6 pb-6 text-slate-600 border-t border-slate-100 pt-4 faq-answer">
+                                De 2 a 6 semanas, dependendo da complexidade. Focamos em sprints ágeis para garantir qualidade e velocidade.
+                            </div>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50">
+                            <button onclick="toggleFaq(2)" class="w-full px-6 py-5 text-left flex justify-between items-center group">
+                                <span class="font-medium text-slate-900 group-hover:text-primary-600 transition-colors text-lg">O site será compatível com celulares?</span>
+                                <i data-lucide="plus" id="faq-icon-2" class="text-primary-600 w-5 h-5 transition-transform"></i>
+                            </button>
+                            <div id="faq-answer-2" class="hidden px-6 pb-6 text-slate-600 border-t border-slate-100 pt-4 faq-answer">
+                                Sim, 100%. Adotamos a metodologia Mobile-First para garantir que a experiência seja perfeita em smartphones e tablets.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT PAGE Restoration -->
+        <div id="page-about" class="page-content hidden">
+            <section class="pt-32 pb-20 bg-white overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-4xl mx-auto text-center mb-20">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs font-semibold uppercase tracking-wide text-primary-700 mb-8">
+                          <span class="w-2 h-2 rounded-full bg-primary-600 animate-pulse"></span> Sobre a Userly
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-bold font-display tracking-tight leading-tight mb-6 text-slate-900">
+                          Tecnologia, Estratégia e Experiência <br/>
+                          <span class="text-primary-600">alinhadas para criar resultados reais.</span>
+                        </h1>
+                        <p class="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto">
+                          Desde 2023, a Userly atua como um estúdio digital focado em transformar marcas através de UX Estratégico, SEO Técnico e desenvolvimento de alto desempenho.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+                        <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-6 text-primary-600"><i data-lucide="target"></i></div>
+                            <h3 class="text-xl font-bold mb-4 font-display">1. UX Estratégico</h3>
+                            <p class="text-slate-600 text-sm">Entendemos profundamente quem é o usuário antes de qualquer layout ou código.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-6 text-primary-600"><i data-lucide="zap"></i></div>
+                            <h3 class="text-xl font-bold mb-4 font-display">2. Performance Real</h3>
+                            <p class="text-slate-600 text-sm">Sites lentos matam conversão. Adotamos React e Next.js para garantir velocidade superior.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-6 text-primary-600"><i data-lucide="brain"></i></div>
+                            <h3 class="text-xl font-bold mb-4 font-display">3. IA Aplicada</h3>
+                            <p class="text-slate-600 text-sm">Usamos IA para acelerar processos e validar hipóteses de forma precisa.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-24 bg-dark-900 rounded-3xl p-10 text-white relative overflow-hidden">
+                        <h2 class="text-3xl font-bold font-display text-center mb-12">Nossa Metodologia</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-7 gap-6 text-center">
+                            <div><div class="font-bold text-primary-500 mb-2">01</div><p class="text-xs">Imersão</p></div>
+                            <div><div class="font-bold text-primary-500 mb-2">02</div><p class="text-xs">Pesquisa UX</p></div>
+                            <div><div class="font-bold text-primary-500 mb-2">03</div><p class="text-xs">UI Design</p></div>
+                            <div><div class="font-bold text-primary-500 mb-2">04</div><p class="text-xs">Dev Moderno</p></div>
+                            <div><div class="font-bold text-primary-500 mb-2">05</div><p class="text-xs">SEO Técnico</p></div>
+                            <div><div class="font-bold text-primary-500 mb-2">06</div><p class="text-xs">Testes</p></div>
+                            <div><div class="font-bold text-primary-500 mb-2">07</div><p class="text-xs">Deploy</p></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SERVICES PAGE Restoration -->
+        <div id="page-services" class="page-content hidden">
+            <section class="pt-32 pb-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-20">
+                        <h1 class="text-4xl md:text-6xl font-bold font-display tracking-tight text-slate-900">Nossas Soluções</h1>
+                        <p class="mt-4 text-slate-600 text-lg">Tecnologia, design e estratégia para escalar seu negócio.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-3xl p-10 border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+                            <div class="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mb-8 text-primary-600"><i data-lucide="code-2" class="w-8 h-8"></i></div>
+                            <h3 class="text-2xl font-bold font-display mb-4">Desenvolvimento de Sites</h3>
+                            <p class="text-slate-600 mb-6">Sites completos com arquitetura moderna e performance de nível empresarial.</p>
+                            <ul class="space-y-2 text-sm font-medium">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> React / Next.js</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Landing Pages de Alta Conversão</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> SEO Técnico Avançado</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-3xl p-10 border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+                            <div class="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mb-8 text-primary-600"><i data-lucide="palette" class="w-8 h-8"></i></div>
+                            <h3 class="text-2xl font-bold font-display mb-4">UI/UX Design</h3>
+                            <p class="text-slate-600 mb-6">Interfaces minimalistas com foco total na clareza e usabilidade.</p>
+                            <ul class="space-y-2 text-sm font-medium">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Wireframes Estratégicos</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Design Responsivo</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Protótipos de Alta Fidelidade</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-3xl p-10 border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+                            <div class="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mb-8 text-primary-600"><i data-lucide="bar-chart" class="w-8 h-8"></i></div>
+                            <h3 class="text-2xl font-bold font-display mb-4">SEO Técnico</h3>
+                            <p class="text-slate-600 mb-6">Estrutura que posiciona sua marca no topo dos motores de busca.</p>
+                            <ul class="space-y-2 text-sm font-medium">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Core Web Vitals</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Otimização de Indexação</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Auditoria de Performance</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-3xl p-10 border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+                            <div class="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mb-8 text-primary-600"><i data-lucide="handshake" class="w-8 h-8"></i></div>
+                            <h3 class="text-2xl font-bold font-display mb-4">Parcerias White-Label</h3>
+                            <p class="text-slate-600 mb-6">Tecnologia moderna para agências que não possuem time interno de dev.</p>
+                            <ul class="space-y-2 text-sm font-medium">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Desenvolvimento Terceirizado</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Suporte Técnico Premium</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Entregas Rápidas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-dark-900 text-white pt-16 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <img src="https://i.imgur.com/zT5ylxA.png" alt="Userly" class="h-10 w-auto mb-6" />
+                    <p class="text-slate-400 text-sm">Alta performance para negócios que não aceitam o básico.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-sm uppercase text-slate-500 font-display">Serviços</h4>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Desenvolvimento Web</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">UI/UX Design</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Otimização SEO</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-sm uppercase text-slate-500 font-display">Empresa</h4>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><button onclick="navigateTo('about')" class="hover:text-primary-400 transition-colors">Sobre</button></li>
+                        <li><a href="#contact" class="hover:text-primary-400 transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-sm uppercase text-slate-500 font-display">Newsletter</h4>
+                    <form class="flex gap-2" onsubmit="event.preventDefault()">
+                        <input type="email" placeholder="E-mail" class="bg-dark-800 border border-slate-700 px-4 py-2 rounded-lg text-sm w-full focus:border-primary-500 outline-none" />
+                        <button class="bg-primary-600 px-4 py-2 rounded-lg text-sm font-bold">Ok</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center md:text-left text-slate-500 text-xs">
+                &copy; <span id="year"></span> Userly. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Restoration -->
+    <div id="chatbot" class="fixed bottom-6 right-6 z-[60]">
+        <div id="chat-window" class="hidden absolute bottom-16 right-0 w-[90vw] sm:w-[400px] h-[500px] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5">
+            <div class="bg-dark-900 p-4 flex justify-between items-center text-white relative overflow-hidden">
+                <div class="flex items-center gap-2 z-10">
+                    <div class="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center"><i data-lucide="sparkles" class="w-4 h-4"></i></div>
+                    <span class="font-bold font-display">Userly AI</span>
+                </div>
+                <button onclick="toggleChat()" class="z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-4 bg-slate-50 text-sm">
+                <div class="bg-white border p-3 rounded-2xl rounded-tl-none text-slate-700 shadow-sm max-w-[85%]">
+                    Olá! Sou a IA da Userly. Como posso ajudar você a escalar seu projeto hoje?
+                </div>
+            </div>
+            <div class="p-4 bg-white border-t flex gap-2">
+                <input type="text" id="chat-input" placeholder="Pergunte sobre tecnologias..." class="w-full bg-slate-50 border px-4 py-2 rounded-xl outline-none focus:border-primary-500 text-sm" />
+                <button id="send-btn" class="bg-primary-600 text-white p-2 rounded-xl"><i data-lucide="send" class="w-5 h-5"></i></button>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="w-14 h-14 bg-primary-600 text-white rounded-full shadow-xl flex items-center justify-center hover:scale-105 transition-all">
+            <i data-lucide="message-circle" class="w-7 h-7"></i>
+            <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white"></span>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module">
+        import { GoogleGenAI } from "https://esm.sh/@google/genai@^1.32.0";
+
+        // Navbar Logic
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-slate-200', 'py-3');
+                nav.classList.remove('bg-transparent', 'py-5');
+            } else {
+                nav.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-slate-200', 'py-3');
+                nav.classList.add('bg-transparent', 'py-5');
+            }
+        });
+
+        // Navigation
+        window.navigateTo = (pageId, sectionId) => {
+            const pages = ['home', 'about', 'services'];
+            pages.forEach(p => {
+                document.getElementById(`page-${p}`).classList.add('hidden');
+            });
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+            
+            if (sectionId) {
+                setTimeout(() => {
+                    const el = document.getElementById(sectionId);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                window.scrollTo(0, 0);
+            }
+            document.getElementById('mobile-menu').classList.add('hidden');
+            lucide.createIcons();
+        };
+
+        // FAQ logic
+        window.toggleFaq = (id) => {
+            const answer = document.getElementById(`faq-answer-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            const isHidden = answer.classList.contains('hidden');
+            
+            // Close all
+            document.querySelectorAll('.faq-answer').forEach(el => el.classList.add('hidden'));
+            
+            if (isHidden) {
+                answer.classList.remove('hidden');
+            }
+        };
+
+        window.toggleMobileMenu = () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        };
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        document.getElementById('year').innerText = new Date().getFullYear();
+
+        // Chatbot Integration
+        let chatSession = null;
+        window.toggleChat = () => {
+            document.getElementById('chat-window').classList.toggle('hidden');
+        };
+
+        async function initAI() {
+            try {
+                const genAI = new GoogleGenAI({ apiKey: process.env.API_KEY });
+                const systemInstruction = `Você é o assistente virtual da Userly. Somos um estúdio de performance web (React, Next.js). NÃO usamos WordPress. Fale de forma amigável e profissional. Responda em até 3 frases. Direcione interessados para #contact.`;
+                
+                chatSession = genAI.chats.create({
+                    model: 'gemini-2.5-flash',
+                    config: { systemInstruction, temperature: 0.7 }
+                });
+            } catch (e) { console.error("AI Error", e); }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text || !chatSession) return;
+
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML += `<div class="bg-primary-600 text-white p-3 rounded-2xl rounded-tr-none self-end ml-auto max-w-[85%] shadow-sm">${text}</div>`;
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await chatSession.sendMessage({ message: text });
+                chatMessages.innerHTML += `<div class="bg-white border p-3 rounded-2xl rounded-tl-none text-slate-700 shadow-sm max-w-[85%]">${response.text}</div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (e) {
+                chatMessages.innerHTML += `<div class="text-red-500 text-xs italic">Erro técnico. Tente novamente mais tarde.</div>`;
+            }
+        }
+
+        document.getElementById('send-btn').addEventListener('click', sendMessage);
+        document.getElementById('chat-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+
+        initAI();
+        lucide.createIcons();
+    </script>
+</body>
 </html>
