@@ -77,7 +77,7 @@ export const Chatbot: React.FC = () => {
 
     try {
       const result = await chatSessionRef.current.sendMessage({ message: userMessage });
-      const responseText = result.text; // Access text directly property
+      const responseText = result.text;
 
       setMessages(prev => [...prev, { role: 'model', text: responseText }]);
     } catch (error) {
@@ -146,7 +146,6 @@ export const Chatbot: React.FC = () => {
                 >
                   {msg.text.split('\n').map((line, i) => (
                     <p key={i} className={i > 0 ? 'mt-2' : ''}>
-                        {/* Basic link parsing for #contact */}
                         {line.includes('#contact') ? (
                             <>
                                 {line.split('#contact')[0]}
@@ -221,11 +220,11 @@ export const Chatbot: React.FC = () => {
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={28} className="fill-current" />}
         
-        {/* Notification dot if closed */}
+        {/* Status dot if closed - Changed to Green for 'Online' */}
         {!isOpen && (
            <span className="absolute top-0 right-0 -mt-1 -mr-1 flex h-4 w-4">
-             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-             <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+             <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500 border-2 border-white"></span>
            </span>
         )}
       </button>
