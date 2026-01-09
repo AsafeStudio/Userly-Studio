@@ -1,31 +1,26 @@
+
 import React from 'react';
-import { Code2, Palette, BarChart, Handshake, Check, ArrowRight } from 'lucide-react';
+import { Monitor, Target, ShoppingBag, Check, ArrowRight } from 'lucide-react';
 
 export const Services: React.FC = () => {
   const serviceList = [
     {
-      title: "Desenvolvimento de Sites Profissionais",
-      description: "Construímos sites completos com arquitetura clara, design premium e performance técnica de nível empresarial.",
-      icon: <Code2 className="w-8 h-8 text-primary-600" />,
-      items: ["UI moderna", "UX estratégico", "SEO técnico avançado", "Desenvolvimento em React/Next.js"]
+      title: "Site Institucional",
+      description: "Presença sólida para marcas que buscam credibilidade.",
+      icon: <Monitor className="w-8 h-8 text-primary-600" />,
+      items: ["Design Exclusivo", "Arquitetura de Conteúdo", "SEO Estruturado", "Mobile First"]
     },
     {
-      title: "UI/UX Design",
-      description: "Interface minimalista com foco total na clareza, acessibilidade e conversão.",
-      icon: <Palette className="w-8 h-8 text-primary-600" />,
-      items: ["Wireframes estratégicos", "Layouts responsivos", "Direção visual completa"]
+      title: "Landing Page",
+      description: "Alta conversão para campanhas específicas.",
+      icon: <Target className="w-8 h-8 text-primary-600" />,
+      items: ["Foco em Conversão", "Velocidade Extrema", "Copywriting Estratégico", "Tracking de Leads"]
     },
     {
-      title: "SEO Técnico",
-      description: "Estrutura técnica que posiciona e converte.",
-      icon: <BarChart className="w-8 h-8 text-primary-600" />,
-      items: ["Velocidade e Core Web Vitals", "Sitemap e indexação", "Otimização de imagens"]
-    },
-    {
-      title: "Parcerias para Agências",
-      description: "Para equipes que desejam tecnologia moderna sem contratar time interno.",
-      icon: <Handshake className="w-8 h-8 text-primary-600" />,
-      items: ["Desenvolvimento white-label", "Entregas rápidas com IA", "Suporte premium"]
+      title: "E-commerce",
+      description: "Lojas rápidas e focadas na experiência de compra.",
+      icon: <ShoppingBag className="w-8 h-8 text-primary-600" />,
+      items: ["Catálogo de Produtos", "Checkout Otimizado", "Performance de Venda", "Gestão de Inventário"]
     }
   ];
 
@@ -39,40 +34,43 @@ export const Services: React.FC = () => {
             Nossas Soluções
           </div>
           <h1 className="text-4xl md:text-6xl font-bold font-display tracking-tight leading-tight mb-6 text-slate-900">
-            Tecnologia moderna, UX estratégico e SEO técnico
+            Soluções Digitais sob Medida
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {serviceList.map((service, index) => (
-            <div key={index} className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+            <div key={index} className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mb-8">
                 {service.icon}
               </div>
               <h3 className="text-2xl font-bold font-display mb-4">{service.title}</h3>
               <p className="text-slate-600 text-lg mb-8 leading-relaxed">{service.description}</p>
-              <div className="space-y-3">
+              <div className="space-y-3 mb-10 w-full">
                 {service.items.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
+                  <div key={idx} className="flex items-start justify-center gap-3">
                     <Check className="w-5 h-5 text-green-600" />
                     <span className="text-slate-600 font-medium">{item}</span>
                   </div>
                 ))}
               </div>
+              <a
+                href="#contact"
+                className="mt-auto w-full py-4 bg-primary-600 text-white rounded-2xl font-bold hover:bg-primary-700 transition-all shadow-lg"
+              >
+                Solicitar projeto
+              </a>
             </div>
           ))}
         </div>
 
-        {/* Novo botão de CTA adicionado */}
         <div className="mt-16 text-center">
-          <a
-            href="#contact"
-            className="inline-flex items-center justify-center px-10 py-5 text-lg font-semibold text-white bg-primary-600 rounded-2xl hover:bg-primary-700 transition-all shadow-xl shadow-primary-500/20 group font-display"
+          <button
+             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+             className="text-slate-500 hover:text-slate-800 uppercase tracking-widest text-xs font-bold"
           >
-            Solicitar projeto
-            <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-          </a>
-          <p className="mt-4 text-slate-500 text-sm">Respostas em até 24h úteis.</p>
+            Voltar ao topo
+          </button>
         </div>
       </div>
     </section>

@@ -1,0 +1,1 @@
+// Arquivo desativado em favor da versão estática pura em index.html.

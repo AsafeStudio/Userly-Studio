@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
 import { GoogleGenAI, Chat } from "@google/genai";
@@ -16,6 +17,7 @@ export const Chatbot: React.FC = () => {
   useEffect(() => {
     const initChat = () => {
       try {
+        // Inicializando o SDK da Gemini com a API Key do ambiente via named parameter
         const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         
         const systemInstruction = `
@@ -47,8 +49,9 @@ export const Chatbot: React.FC = () => {
           - Se perguntarem preços, diga que depende da complexidade do projeto e sugira uma avaliação gratuita via contato.
         `;
 
+        // Utilizando o modelo 'gemini-3-flash-preview' recomendado para tarefas de texto básicas
         chatSessionRef.current = ai.chats.create({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-3-flash-preview',
           config: {
             systemInstruction: systemInstruction,
             temperature: 0.7,
@@ -76,10 +79,13 @@ export const Chatbot: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const result = await chatSessionRef.current.sendMessage({ message: userMessage });
-      const responseText = result.text;
+      // O SDK retorna um GenerateContentResponse; acessamos a propriedade .text diretamente (não é um método)
+      const response = await chatSessionRef.current.sendMessage({ message: userMessage });
+      const responseText = response.text;
 
-      setMessages(prev => [...prev, { role: 'model', text: responseText }]);
+      if (responseText) {
+        setMessages(prev => [...prev, { role: 'model', text: responseText }]);
+      }
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages(prev => [...prev, { role: 'model', text: "Desculpe, tive um problema técnico momentâneo. Pode tentar novamente ou ir para a seção de contato?" }]);

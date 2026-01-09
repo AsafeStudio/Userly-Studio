@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { FAQItem } from '../types';
@@ -10,17 +11,8 @@ const faqItems: FAQItem[] = [
         <p className="mb-4 font-bold text-slate-900">Não.</p>
         <p className="mb-4">
           A Userly trabalha com desenvolvimento moderno, usando tecnologias como 
-          <strong className="text-primary-600"> React, Next.js e TailwindCSS</strong> - as mesmas adotadas por empresas líderes do mercado.
+          <strong className="text-primary-600"> React, Next.js e TailwindCSS</strong>.
         </p>
-        <p className="mb-2">Isso garante:</p>
-        <ul className="list-disc pl-5 space-y-1 mb-4">
-          <li>Velocidade máxima</li>
-          <li>Segurança avançada</li>
-          <li>SEO técnico robusto</li>
-          <li>Escalabilidade</li>
-          <li>Personalização total</li>
-          <li>Integração nativa com IA</li>
-        </ul>
         <p className="text-sm italic text-slate-500">
           Construtores visuais limitam performance e SEO - pilares centrais do que entregamos.
         </p>
@@ -34,10 +26,6 @@ const faqItems: FAQItem[] = [
   {
     question: "O site será compatível com celulares (responsivo)?",
     answer: "Sim, 100%. Adotamos uma metodologia 'Mobile-First', garantindo que a experiência seja perfeita em smartphones, tablets e desktops."
-  },
-  {
-    question: "Como funciona a manutenção após o lançamento?",
-    answer: "Oferecemos pacotes de suporte técnico para manter as bibliotecas atualizadas, monitorar performance e realizar ajustes pontuais conforme seu negócio evolui."
   }
 ];
 
@@ -53,18 +41,13 @@ export const FAQ: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Left Column: Headline and Description */}
           <div className="lg:col-span-4">
             <h2 className="text-3xl font-bold text-slate-900 mb-6 font-display">Perguntas Frequentes</h2>
             <p className="text-slate-500 text-lg leading-relaxed">
               Tire suas dúvidas sobre nosso modelo de trabalho e entenda como podemos escalar seu negócio.
             </p>
-            <div className="mt-8 hidden lg:block">
-               <div className="h-1 w-20 bg-primary-600 rounded"></div>
-            </div>
           </div>
 
-          {/* Right Column: Accordion */}
           <div className="lg:col-span-8 space-y-4">
             {faqItems.map((item, index) => (
               <div 

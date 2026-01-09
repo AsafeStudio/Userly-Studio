@@ -1,0 +1,1 @@
+// Obsoleto: Conteúdo migrado para index.html

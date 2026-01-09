@@ -1,8 +1,10 @@
+
 import React from 'react';
 
-export interface NavItem {
-  label: string;
-  href: string;
+// Definindo as interfaces exportadas para serem usadas em outros componentes
+// Corrigindo o erro "is not a module" ao adicionar exports válidos.
+export interface BenefitItem {
+  title: string;
 }
 
 export interface ServiceItem {
@@ -11,17 +13,7 @@ export interface ServiceItem {
   icon: React.ReactNode;
 }
 
-export interface BenefitItem {
-  title: string;
-}
-
 export interface FAQItem {
   question: string;
-  answer: string | React.ReactNode;
-}
-
-export interface TestimonialItem {
-  quote: string;
-  author: string;
-  company: string;
+  answer: React.ReactNode;
 }

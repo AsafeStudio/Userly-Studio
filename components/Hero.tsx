@@ -34,14 +34,14 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#contact"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-500/25 group font-display"
+              className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-primary-600 rounded-[10px] hover:bg-primary-700 transition-all shadow-lg shadow-primary-500/25 group font-display"
             >
               Solicitar projeto
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
             <button
               onClick={() => onNavigate('services')}
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all font-display"
+              className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-slate-700 bg-white border border-slate-200 rounded-[10px] hover:bg-slate-50 hover:border-slate-300 transition-all font-display"
             >
               Ver portfólio
             </button>
