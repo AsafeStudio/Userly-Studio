@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Userly | Sites Profissionais Criados do Zero</title>
-    <meta name="description" content="Criação de sites institucionais e landing pages de alta performance, criados totalmente do zero." />
+    <title>Userly | Sites Profissionais e Branding</title>
+    <meta name="description" content="Criação de sites de alta performance e identidade visual profissional para negócios que querem escalar." />
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,6 +42,9 @@
             --bg-x: 50%; --bg-y: 50%;
             --bg-x2: 80%; --bg-y2: 20%;
             --bg-x3: 20%; --bg-y3: 80%;
+            --hero-scale: 1;
+            --hero-opacity: 1;
+            --hero-blur: 0px;
         }
 
         body { 
@@ -58,9 +61,9 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(circle at var(--bg-x) var(--bg-y), rgba(127, 90, 240, 0.35) 0%, transparent 50%),
-                radial-gradient(circle at var(--bg-x2) var(--bg-y2), rgba(67, 56, 202, 0.25) 0%, transparent 45%),
-                radial-gradient(circle at var(--bg-x3) var(--bg-y3), rgba(139, 92, 246, 0.2) 0%, transparent 40%);
+                radial-gradient(circle at var(--bg-x) var(--bg-y), rgba(127, 90, 240, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at var(--bg-x2) var(--bg-y2), rgba(67, 56, 202, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at var(--bg-x3) var(--bg-y3), rgba(139, 92, 246, 0.12) 0%, transparent 40%);
             z-index: -1;
             pointer-events: none;
             background-color: #1f1f23;
@@ -70,7 +73,7 @@
         .font-display { font-family: 'Space Grotesk', sans-serif; }
         
         .nav-scrolled {
-            background: rgba(31, 31, 35, 0.95) !important;
+            background: rgba(31, 31, 35, 0.8) !important;
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding-top: 1rem !important;
@@ -78,16 +81,16 @@
         }
 
         .unified-card {
-            background: rgba(42, 42, 48, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
+            background: rgba(42, 42, 48, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
             transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
         
         .unified-card:hover {
             border-color: rgba(127, 90, 240, 0.4);
             transform: translateY(-5px);
-            background: rgba(42, 42, 48, 0.5);
+            background: rgba(42, 42, 48, 0.6);
         }
 
         .page-view {
@@ -101,6 +104,32 @@
 
         .faq-item[open] summary svg {
             transform: rotate(180deg);
+        }
+
+        /* Estilo Parallax 3D Shrink Refinado */
+        #hero-section {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 0;
+            pointer-events: auto;
+        }
+
+        #hero-content {
+            transform: scale(var(--hero-scale));
+            opacity: var(--hero-opacity);
+            filter: blur(var(--hero-blur));
+            will-change: transform, opacity, filter;
+        }
+
+        /* Seção seguinte flutuante sem fundo sólido */
+        .content-overlay {
+            position: relative;
+            z-index: 20;
+            background-color: transparent; /* Removido fundo sólido */
         }
 
         ::-webkit-scrollbar { width: 6px; }
@@ -140,9 +169,9 @@
 </head>
 <body class="antialiased selection:bg-primary-500 selection:text-white">
 
-    <!-- Menu / Navbar -->
+    <!-- Navbar -->
     <nav id="navbar" class="fixed w-full z-[100] transition-all duration-300 py-6">
-        <div class="max-w-7xl mx-auto px-[15px] flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <a href="javascript:void(0)" onclick="navigateTo('home')" class="flex items-center gap-2">
                 <img src="https://i.imgur.com/zT5ylxA.png" alt="Userly" class="h-8 w-auto" />
             </a>
@@ -162,316 +191,285 @@
     <main id="main-content">
         <!-- PÁGINA: HOME -->
         <div id="page-home" class="page-view">
-            <!-- Hero -->
-            <section class="min-h-[90vh] flex items-center justify-center pt-20 relative overflow-hidden">
-                <div class="max-w-5xl mx-auto px-[15px] text-center relative z-10">
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold font-display text-white leading-[1.1] mb-8 tracking-tight">
+            <!-- Hero (Sticky 3D Effect) -->
+            <section id="hero-section">
+                <div id="hero-content" class="max-w-5xl mx-auto px-6 text-center">
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold font-display text-white leading-[1.1] mb-8 tracking-tight">
                         <span class="text-primary-500 block">Sites profissionais</span>
                         <span class="block">que impulsionam negócios.</span>
                     </h1>
                     
-                    <p class="text-base md:text-xl text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto">
+                    <p class="text-lg md:text-xl text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto">
                         Desenvolvemos sites profissionais, rápidos e sem burocracia. Focados em clareza e performance para o seu negócio.
                     </p>
                     
-                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 px-4 sm:px-0">
-                        <a href="#contato" class="w-full sm:w-auto max-w-[340px] px-10 py-5 bg-primary-500 text-white rounded-[10px] font-bold text-xl hover:bg-primary-600 transition-all shadow-2xl shadow-primary-500/30 flex items-center justify-center group font-display">
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <a href="#contato" class="w-full sm:w-auto px-10 py-5 bg-primary-500 text-white rounded-[10px] font-bold text-xl hover:bg-primary-600 transition-all shadow-2xl shadow-primary-500/30 flex items-center justify-center group font-display">
                             Solicitar orçamento <i data-lucide="arrow-right" class="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
             </section>
 
-            <!-- Seção: Diferenciais (3 CARDS NOVOS) -->
-            <section class="py-24 border-t border-white/5">
-                <div class="max-w-7xl mx-auto px-[15px]">
-                    <div class="text-center mb-16">
-                        <h2 class="text-primary-500 font-bold uppercase tracking-[0.2em] text-xs mb-4">A Nova Era do Desenvolvimento</h2>
-                        <h3 class="text-2xl md:text-4xl font-bold font-display text-white tracking-tight">Sites que Carregam em Milissegundos</h3>
+            <!-- Overlay de conteúdo que sobe (Transparente) -->
+            <div class="content-overlay">
+                <!-- Seção: Diferenciais -->
+                <section class="py-32 relative z-20">
+                    <div class="max-w-7xl mx-auto px-6">
+                        <div class="text-center mb-20">
+                            <h2 class="text-primary-500 font-bold uppercase tracking-[0.2em] text-xs mb-4">A Nova Era do Desenvolvimento</h2>
+                            <h3 class="text-3xl md:text-4xl font-bold font-display text-white tracking-tight">Sites que Carregam em Milissegundos</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="unified-card p-10 rounded-2xl text-center">
+                                <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
+                                    <i data-lucide="layout" size="32"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-white mb-4 font-display">Design Exclusivo</h4>
+                                <p class="text-slate-500 leading-relaxed text-sm">Nada de templates prontos. Criamos interfaces únicas alinhadas à sua marca e focadas em converter visitantes.</p>
+                            </div>
+                            <div class="unified-card p-10 rounded-2xl text-center border-primary-500/20">
+                                <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
+                                    <i data-lucide="zap" size="32"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-white mb-4 font-display">Performance Extrema</h4>
+                                <p class="text-slate-500 leading-relaxed text-sm">Usamos Next.js e React para garantir notas máximas no Google PageSpeed e carregamento instantâneo.</p>
+                            </div>
+                            <div class="unified-card p-10 rounded-2xl text-center">
+                                <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
+                                    <i data-lucide="trending-up" size="32"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-white mb-4 font-display">Estratégia de Vendas</h4>
+                                <p class="text-slate-500 leading-relaxed text-sm">Não é apenas um site bonito. É uma ferramenta de vendas com SEO técnico e gatilhos de conversão integrados.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        <div class="unified-card p-10 rounded-2xl text-center">
-                            <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
-                                <i data-lucide="layout" size="32"></i>
-                            </div>
-                            <h4 class="text-xl font-bold text-white mb-4 font-display">Design Exclusivo</h4>
-                            <p class="text-slate-500 leading-relaxed text-sm">Nada de templates prontos. Criamos interfaces únicas alinhadas à sua marca e focadas em converter visitantes.</p>
-                        </div>
-                        <div class="unified-card p-10 rounded-2xl text-center border-primary-500/20">
-                            <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
-                                <i data-lucide="zap" size="32"></i>
-                            </div>
-                            <h4 class="text-xl font-bold text-white mb-4 font-display">Performance Extrema</h4>
-                            <p class="text-slate-500 leading-relaxed text-sm">Usamos Next.js e React para garantir notas máximas no Google PageSpeed e carregamento instantâneo.</p>
-                        </div>
-                        <div class="unified-card p-10 rounded-2xl text-center">
-                            <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
-                                <i data-lucide="trending-up" size="32"></i>
-                            </div>
-                            <h4 class="text-xl font-bold text-white mb-4 font-display">Estratégia de Vendas</h4>
-                            <p class="text-slate-500 leading-relaxed text-sm">Não é apenas um site bonito. É uma ferramenta de vendas com SEO técnico e gatilhos de conversão integrados.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Seção: Performance Real -->
-            <section class="py-24 border-y border-white/5 bg-white/[0.01]">
-                <div class="max-w-7xl mx-auto px-[15px]">
-                    <div class="grid lg:grid-cols-5 gap-12 items-start">
-                        <div class="lg:col-span-3">
-                            <div class="flex items-center gap-3 text-red-500 font-bold mb-8">
-                                <i data-lucide="alert-triangle" size="18"></i>
-                                <span class="uppercase tracking-[0.2em] text-xs">Fator Crítico de Negócio</span>
+                <!-- Seção: Branding -->
+                <section class="py-32 border-t border-white/5 relative overflow-hidden">
+                    <div class="max-w-7xl mx-auto px-6 relative z-10">
+                        <div class="grid lg:grid-cols-2 gap-16 items-center">
+                            <div>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/10 border border-primary-500/20 text-[10px] font-bold uppercase tracking-widest text-primary-400 mb-6">
+                                    <i data-lucide="palette" size="14"></i> Branding & Design
+                                </div>
+                                <h2 class="text-3xl md:text-5xl font-bold font-display text-white mb-8 tracking-tight leading-tight">
+                                    Branding e Identidade Visual para marcas que querem <span class="text-primary-400">ser levadas a sério.</span>
+                                </h2>
+                                <p class="text-lg text-slate-400 leading-relaxed mb-8">
+                                    Criamos marcas claras, consistentes e profissionais do conceito visual à aplicação digital. Nosso foco é comunicar valor, profissionalismo e posicionamento estratégico.
+                                </p>
+                                <p class="text-sm text-slate-500 mb-10 italic border-l-2 border-primary-500 pl-4">
+                                    "O branding pode ser contratado separadamente ou de forma integrada ao desenvolvimento do seu site."
+                                </p>
+                                <a href="#contato" class="px-8 py-4 bg-primary-500 text-white rounded-xl font-bold text-lg hover:bg-primary-600 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-primary-500/20 w-fit">
+                                    Solicitar orçamento de Branding <i data-lucide="chevron-right" class="group-hover:translate-x-1 transition-transform"></i>
+                                </a>
                             </div>
-                            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold font-display text-white mb-8 tracking-tight leading-tight">
-                                Sua velocidade é sua <br/> <span class="text-primary-400">taxa de conversão.</span>
-                            </h2>
-                            <p class="text-lg text-slate-400 leading-relaxed mb-10 max-w-xl">
-                                <span class="text-white font-bold">Sites lentos matam conversão.</span> Cada segundo de atraso no carregamento reduz em até 7% a sua receita potencial. Na Userly, performance não é opcional.
-                            </p>
-                            
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-white/5 pt-10">
-                                <div class="space-y-1">
-                                    <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">LCP Score</div>
-                                    <div class="text-xl font-bold text-white font-display tracking-tight">0.8s</div>
-                                    <div class="text-[10px] text-green-500 font-bold">EXCELENTE</div>
-                                </div>
-                                <div class="space-y-1">
-                                    <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">FID Delay</div>
-                                    <div class="text-xl font-bold text-white font-display tracking-tight">12ms</div>
-                                    <div class="text-[10px] text-green-500 font-bold">INSTANTÂNEO</div>
-                                </div>
-                                <div class="space-y-1">
-                                    <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">CLS Layout</div>
-                                    <div class="text-xl font-bold text-white font-display tracking-tight">0.00</div>
-                                    <div class="text-[10px] text-green-500 font-bold">ESTÁVEL</div>
-                                </div>
-                                <div class="space-y-1">
-                                    <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">TTFB Time</div>
-                                    <div class="text-xl font-bold text-white font-display tracking-tight">~200ms</div>
-                                    <div class="text-[10px] text-green-500 font-bold">ULTRA-FAST</div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="lg:col-span-2 lg:pl-10 h-full flex flex-col justify-center">
-                            <div class="space-y-6">
-                                <div class="flex items-baseline gap-4">
-                                    <span class="text-7xl md:text-8xl lg:text-9xl font-bold text-white font-display tracking-tighter">100</span>
-                                    <span class="text-2xl font-bold text-primary-500 font-display">/ 100</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="unified-card p-6 rounded-xl">
+                                    <i data-lucide="focus" class="text-primary-500 mb-4" size="24"></i>
+                                    <h4 class="text-white font-bold mb-2 font-display">Conceito e Posicionamento</h4>
+                                    <p class="text-slate-500 text-xs">Definição estratégica do que sua marca representa no mercado.</p>
                                 </div>
-                                <div class="max-w-xs">
-                                    <p class="text-[10px] font-medium text-slate-500 uppercase tracking-[0.3em] mb-4">Google PageSpeed Insights</p>
-                                    <p class="text-slate-400 text-sm leading-relaxed">
-                                        Nossa metodologia de desenvolvimento garante o score máximo em todos os indicadores técnicos do Google, elevando seu SEO e reduzindo custos de tráfego pago.
-                                    </p>
+                                <div class="unified-card p-6 rounded-xl">
+                                    <i data-lucide="component" class="text-primary-500 mb-4" size="24"></i>
+                                    <h4 class="text-white font-bold mb-2 font-display">Logotipo e Variações</h4>
+                                    <p class="text-slate-500 text-xs">Símbolos versáteis para qualquer aplicação física ou digital.</p>
+                                </div>
+                                <div class="unified-card p-6 rounded-xl">
+                                    <i data-lucide="swatchbook" class="text-primary-500 mb-4" size="24"></i>
+                                    <h4 class="text-white font-bold mb-2 font-display">Cores e Tipografia</h4>
+                                    <p class="text-slate-500 text-xs">Paletas e fontes que transmitem a psicologia da sua marca.</p>
+                                </div>
+                                <div class="unified-card p-6 rounded-xl">
+                                    <i data-lucide="layers" class="text-primary-500 mb-4" size="24"></i>
+                                    <h4 class="text-white font-bold mb-2 font-display">Direção Visual Digital</h4>
+                                    <p class="text-slate-500 text-xs">Aplicações otimizadas para redes sociais e presença web.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Metodologia -->
-            <section class="py-24 border-t border-white/5">
-                <div class="max-w-7xl mx-auto px-[15px]">
-                    <div class="text-center mb-20">
-                        <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold font-display text-white mb-4 tracking-tight">Como trabalhamos</h2>
-                        <p class="text-slate-400 text-base max-w-2xl mx-auto leading-relaxed">Um processo claro e eficiente, do primeiro contato ao lançamento oficial.</p>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-5 gap-8">
-                        <div class="relative group text-center md:text-left">
-                            <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold flex items-center justify-center mb-6 shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform relative z-10 mx-auto md:mx-0">01</div>
-                            <h4 class="text-white font-bold mb-4 font-display text-lg">Imersão</h4>
-                            <p class="text-sm text-slate-500">Entendemos seu negócio e objetivos para traçar a melhor strategy digital.</p>
-                        </div>
-                        <div class="relative group text-center md:text-left">
-                            <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold flex items-center justify-center mb-6 shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform relative z-10 mx-auto md:mx-0">02</div>
-                            <h4 class="text-white font-bold mb-4 font-display text-lg">Estratégia</h4>
-                            <p class="text-sm text-slate-500">Definimos a arquitetura e o fluxo de conversão ideal para seus visitantes.</p>
-                        </div>
-                        <div class="relative group text-center md:text-left">
-                            <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold flex items-center justify-center mb-6 shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform relative z-10 mx-auto md:mx-0">03</div>
-                            <h4 class="text-white font-bold mb-4 font-display text-lg">Design</h4>
-                            <p class="text-sm text-slate-500">Criamos interfaces exclusivas, modernas e focadas em usabilidade e marca.</p>
-                        </div>
-                        <div class="relative group text-center md:text-left">
-                            <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold flex items-center justify-center mb-6 shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform relative z-10 mx-auto md:mx-0">04</div>
-                            <h4 class="text-white font-bold mb-4 font-display text-lg">Dev</h4>
-                            <p class="text-sm text-slate-500">Codificamos seu site do zero com as tecnologias mais rápidas e seguras.</p>
-                        </div>
-                        <div class="relative group text-center md:text-left">
-                            <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold flex items-center justify-center mb-6 shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform relative z-10 mx-auto md:mx-0">05</div>
-                            <h4 class="text-white font-bold mb-4 font-display text-lg">Lançamento</h4>
-                            <p class="text-sm text-slate-500">SEO técnico aplicado e seu site no ar pronto para converter.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                <!-- Seção: Performance -->
+                <section class="py-32 border-y border-white/5">
+                    <div class="max-w-7xl mx-auto px-6">
+                        <div class="grid lg:grid-cols-5 gap-12 items-start">
+                            <div class="lg:col-span-3">
+                                <div class="flex items-center gap-3 text-red-500 font-bold mb-8">
+                                    <i data-lucide="alert-triangle" size="18"></i>
+                                    <span class="uppercase tracking-[0.2em] text-xs">Fator Crítico de Negócio</span>
+                                </div>
+                                <h2 class="text-3xl md:text-5xl font-bold font-display text-white mb-8 tracking-tight leading-tight">
+                                    Sua velocidade é sua <br/> <span class="text-primary-400">taxa de conversão.</span>
+                                </h2>
+                                <p class="text-lg text-slate-400 leading-relaxed mb-10 max-w-xl">
+                                    <span class="text-white font-bold">Sites lentos matam conversão.</span> Cada segundo de atraso no carregamento reduz em até 7% a sua receita potencial. Na Userly, performance não é opcional.
+                                </p>
+                                
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-white/5 pt-10">
+                                    <div class="space-y-1">
+                                        <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">LCP Score</div>
+                                        <div class="text-xl font-bold text-white font-display tracking-tight">0.8s</div>
+                                        <div class="text-[10px] text-green-500 font-bold">EXCELENTE</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">FID Delay</div>
+                                        <div class="text-xl font-bold text-white font-display tracking-tight">12ms</div>
+                                        <div class="text-[10px] text-green-500 font-bold">INSTANTÂNEO</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">CLS Layout</div>
+                                        <div class="text-xl font-bold text-white font-display tracking-tight">0.00</div>
+                                        <div class="text-[10px] text-green-500 font-bold">ESTÁVEL</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">TTFB Time</div>
+                                        <div class="text-xl font-bold text-white font-display tracking-tight">~200ms</div>
+                                        <div class="text-[10px] text-green-500 font-bold">ULTRA-FAST</div>
+                                    </div>
+                                </div>
+                            </div>
 
-            <!-- FAQ -->
-            <section class="py-24 border-t border-white/5">
-                <div class="max-w-4xl mx-auto px-[15px]">
-                    <div class="text-center mb-16">
-                        <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold font-display text-white mb-4 tracking-tight">Perguntas Frequentes</h2>
+                            <div class="lg:col-span-2 lg:pl-10 h-full flex flex-col justify-center">
+                                <div class="space-y-6">
+                                    <div class="flex items-baseline gap-4">
+                                        <span class="text-8xl lg:text-9xl font-bold text-white font-display tracking-tighter">100</span>
+                                        <span class="text-2xl font-bold text-primary-500 font-display">/ 100</span>
+                                    </div>
+                                    <div class="max-w-xs">
+                                        <p class="text-[10px] font-medium text-slate-500 uppercase tracking-[0.3em] mb-4">Google PageSpeed Insights</p>
+                                        <p class="text-slate-400 text-sm leading-relaxed">
+                                            Nossa metodologia de desenvolvimento garante o score máximo em todos os indicadores técnicos do Google, elevando seu SEO e reduzindo custos de tráfego pago.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-4">
-                        <details class="faq-item group">
-                            <summary class="list-none cursor-pointer p-6 bg-white/[0.03] border border-white/5 rounded-[10px] flex justify-between items-center hover:bg-white/[0.05] transition-all">
-                                <span class="text-lg font-bold text-white font-display">Vocês usam WordPress ou construtores visuais?</span>
-                                <i data-lucide="chevron-down" class="text-primary-500"></i>
-                            </summary>
-                            <div class="p-8 bg-white/[0.01] border-x border-b border-white/5 rounded-b-[10px] -mt-2">
-                                <p class="text-slate-400">Não. Trabalhamos com código limpo e estrutura própria, focada em performance, estabilidade e facilidade de manutenção. Isso nos permite criar sites mais rápidos, seguros e sem dependência de plugins ou plataformas pesadas.</p>
-                            </div>
-                        </details>
-                        <details class="faq-item group">
-                            <summary class="list-none cursor-pointer p-6 bg-white/[0.03] border border-white/5 rounded-[10px] flex justify-between items-center hover:bg-white/[0.05] transition-all">
-                                <span class="text-lg font-bold text-white font-display">Quanto tempo leva para entrega do projeto?</span>
-                                <i data-lucide="chevron-down" class="text-primary-500"></i>
-                            </summary>
-                            <div class="p-8 bg-white/[0.01] border-x border-b border-white/5 rounded-b-[10px] -mt-2">
-                                <p class="text-slate-400">De 2 a 6 semanas, dependendo da complexidade.</p>
-                            </div>
-                        </details>
-                        <details class="faq-item group">
-                            <summary class="list-none cursor-pointer p-6 bg-white/[0.03] border border-white/5 rounded-[10px] flex justify-between items-center hover:bg-white/[0.05] transition-all">
-                                <span class="text-lg font-bold text-white font-display">O Site será compatível para celulares?</span>
-                                <i data-lucide="chevron-down" class="text-primary-500"></i>
-                            </summary>
-                            <div class="p-8 bg-white/[0.01] border-x border-b border-white/5 rounded-b-[10px] -mt-2">
-                                <p class="text-slate-400 leading-relaxed">Sim, 100%. Adotamos a metodologia Mobile-First para garantir que a experiência seja perfeita em smartphones e tablets.</p>
-                            </div>
-                        </details>
+                </section>
+
+                <!-- FAQ -->
+                <section class="py-32 border-t border-white/5">
+                    <div class="max-w-4xl mx-auto px-6">
+                        <div class="text-center mb-16">
+                            <h2 class="text-3xl md:text-5xl font-bold font-display text-white mb-4 tracking-tight">Perguntas Frequentes</h2>
+                        </div>
+                        <div class="space-y-4">
+                            <details class="faq-item group">
+                                <summary class="list-none cursor-pointer p-6 bg-white/[0.03] border border-white/5 rounded-[10px] flex justify-between items-center hover:bg-white/[0.05] transition-all">
+                                    <span class="text-lg font-bold text-white font-display">Vocês usam WordPress ou construtores visuais?</span>
+                                    <i data-lucide="chevron-down" class="text-primary-500"></i>
+                                </summary>
+                                <div class="p-8 bg-white/[0.01] border-x border-b border-white/5 rounded-b-[10px] -mt-2">
+                                    <p class="text-slate-400 leading-relaxed">Não. Trabalhamos com código limpo e estrutura própria, focada em performance, estabilidade e facilidade de manutenção. Isso nos permite criar sites mais rápidos, seguros e sem dependência de plugins pesados.</p>
+                                </div>
+                            </details>
+                            <details class="faq-item group">
+                                <summary class="list-none cursor-pointer p-6 bg-white/[0.03] border border-white/5 rounded-[10px] flex justify-between items-center hover:bg-white/[0.05] transition-all">
+                                    <span class="text-lg font-bold text-white font-display">Quanto tempo leva para entrega do projeto?</span>
+                                    <i data-lucide="chevron-down" class="text-primary-500"></i>
+                                </summary>
+                                <div class="p-8 bg-white/[0.01] border-x border-b border-white/5 rounded-b-[10px] -mt-2">
+                                    <p class="text-slate-400 leading-relaxed">Nossos projetos típicos levam entre 2 a 6 semanas, dependendo da complexidade e dos serviços contratados (Branding + Site por exemplo).</p>
+                                </div>
+                            </details>
+                            <details class="faq-item group">
+                                <summary class="list-none cursor-pointer p-6 bg-white/[0.03] border border-white/5 rounded-[10px] flex justify-between items-center hover:bg-white/[0.05] transition-all">
+                                    <span class="text-lg font-bold text-white font-display">O site será compatível para celulares?</span>
+                                    <i data-lucide="chevron-down" class="text-primary-500"></i>
+                                </summary>
+                                <div class="p-8 bg-white/[0.01] border-x border-b border-white/5 rounded-b-[10px] -mt-2">
+                                    <p class="text-slate-400 leading-relaxed">Sim, 100%. Adotamos a metodologia Mobile-First para garantir que a experiência seja perfeita em qualquer tamanho de tela.</p>
+                                </div>
+                            </details>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
 
         <!-- PÁGINA: SERVIÇOS -->
         <div id="page-servicos" class="page-view hidden min-h-screen pt-40 pb-20">
-            <div class="max-w-7xl mx-auto px-[15px] w-full">
+            <div class="max-w-7xl mx-auto px-6 w-full">
                 <div class="text-center mb-20">
-                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-white mb-6 tracking-tight">Soluções Digitais sob Medida</h2>
-                    <p class="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">Cada solução atende a um objetivo diferente, mas todas são criadas do zero com foco total em resultados.</p>
+                    <h2 class="text-4xl md:text-6xl font-bold font-display text-white mb-6 tracking-tight">Soluções Digitais sob Medida</h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">Desenvolvimento e design de alto impacto para negócios que buscam resultados reais através de tecnologia moderna.</p>
                 </div>
                 
-                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    <!-- Site Institucional -->
-                    <div class="unified-card p-10 rounded-2xl flex flex-col">
-                        <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
-                            <i data-lucide="monitor" size="32"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-6 font-display text-center border-b border-white/10 pb-4">Site Institucional</h3>
-                        <p class="text-slate-400 text-sm mb-8 leading-relaxed text-center">Para empresas e profissionais que precisam de presença digital profissional.</p>
-                        
+                <!-- Grade de Contratação -->
+                <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
+                    <!-- Branding Isolado -->
+                    <div class="unified-card p-10 rounded-3xl flex flex-col">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6">Contratação Isolada</div>
+                        <h4 class="text-2xl font-bold text-white mb-4 font-display">Branding</h4>
+                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Foco exclusivo na construção da sua marca. Ideal para quem já tem um site ou quer começar pela fundação visual.</p>
                         <div class="space-y-4 mb-10 flex-grow">
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Site moderno, rápido e responsivo</span>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Design focado em clareza e credibilidade</span>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Ideal para apresentar serviços, marca e informações</span>
-                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Identidade Visual Completa</div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Logotipo & Variações</div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Manual da Marca</div>
                         </div>
-                        
-                        <a href="https://wa.me/5500000000000" target="_blank" class="w-full py-4 bg-primary-500 text-white rounded-xl font-bold hover:bg-primary-600 transition-all text-center">Solicitar orçamento</a>
+                        <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10">Só Branding</a>
                     </div>
 
-                    <!-- Site de Vendas (Landing Page) -->
-                    <div class="unified-card p-10 rounded-2xl flex flex-col border-primary-500/30">
-                        <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
-                            <i data-lucide="target" size="32"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-6 font-display text-center border-b border-white/10 pb-4">Site de Vendas (Landing Page)</h3>
-                        <p class="text-slate-400 text-sm mb-8 leading-relaxed text-center">Para quem precisa converter visitantes em contatos ou clientes.</p>
-                        
+                    <!-- Site Isolado -->
+                    <div class="unified-card p-10 rounded-3xl flex flex-col">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6">Contratação Isolada</div>
+                        <h4 class="text-2xl font-bold text-white mb-4 font-display">Site</h4>
+                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Para quem já possui identidade visual e precisa de um produto digital de alta performance (Institucional, LP ou Loja).</p>
                         <div class="space-y-4 mb-10 flex-grow">
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Estrutura focada em conversão</span>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Mensagem clara e objetiva</span>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Ideal para campanhas, serviços específicos ou ofertas</span>
-                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Dev em Next.js/React</div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> SEO Técnico & Performance</div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Design Exclusivo</div>
                         </div>
-                        
-                        <a href="https://wa.me/5500000000000" target="_blank" class="w-full py-4 bg-primary-500 text-white rounded-xl font-bold hover:bg-primary-600 transition-all text-center">Solicitar orçamento</a>
+                        <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10">Só Site</a>
                     </div>
 
-                    <!-- E-commerce -->
-                    <div class="unified-card p-10 rounded-2xl flex flex-col">
-                        <div class="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center mb-8 mx-auto text-primary-400">
-                            <i data-lucide="shopping-bag" size="32"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-6 font-display text-center border-b border-white/10 pb-4">E-commerce</h3>
-                        <p class="text-slate-400 text-sm mb-8 leading-relaxed text-center">Para negócios que desejam vender produtos online.</p>
-                        
+                    <!-- Combo Branding + Site -->
+                    <div class="unified-card p-10 rounded-3xl flex flex-col border-primary-500/40 bg-primary-500/5 relative">
+                        <div class="absolute top-4 right-6 bg-primary-500 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Recomendado</div>
+                        <div class="text-primary-400 text-[10px] uppercase tracking-widest font-bold mb-6">Ecossistema Completo</div>
+                        <h4 class="text-2xl font-bold text-white mb-4 font-display">Branding + Site</h4>
+                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">A solução definitiva. Unificamos a criação da marca com o desenvolvimento para total consistência visual.</p>
                         <div class="space-y-4 mb-10 flex-grow">
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Estrutura completa para loja virtual</span>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Organização de produtos e navegação intuitiva</span>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <i data-lucide="check" class="text-primary-500 w-5 h-5 flex-shrink-0"></i>
-                                <span class="text-xs text-slate-300">Pensado para crescimento e escala</span>
-                            </div>
+                            <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Tudo do Branding</div>
+                            <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Tudo do Site</div>
+                            <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Sincronia de Design total</div>
                         </div>
-                        
-                        <a href="https://wa.me/5500000000000" target="_blank" class="w-full py-4 bg-primary-500 text-white rounded-xl font-bold hover:bg-primary-600 transition-all text-center">Solicitar orçamento</a>
+                        <a href="#contato" class="w-full py-4 bg-primary-500 text-white rounded-xl font-bold hover:bg-primary-600 transition-all text-center text-sm shadow-xl shadow-primary-500/20">Branding + Site</a>
                     </div>
-                </div>
-                
-                <div class="mt-20 text-center">
-                    <button onclick="navigateTo('home')" class="text-slate-500 hover:text-white uppercase tracking-widest text-xs font-bold border-b border-transparent hover:border-white transition-all">Voltar ao Início</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Seção: CONTATO -->
+    <!-- Contato -->
     <section id="contato" class="py-24 relative">
-        <div class="max-w-5xl mx-auto px-[15px] text-center">
-            <div class="bg-white/5 rounded-[10px] px-6 py-12 md:p-20 border border-white/10 relative overflow-hidden shadow-2xl backdrop-blur-md">
-                <div class="absolute top-0 right-0 w-96 h-96 bg-primary-500/20 rounded-full blur-[120px] -mr-48 -mt-48 pointer-events-none"></div>
-                
-                <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-white mb-6 tracking-tight">Pronto para começar?</h2>
-                <p class="text-base md:text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="bg-white/5 rounded-[10px] px-6 py-20 md:p-24 border border-white/10 relative overflow-hidden shadow-2xl backdrop-blur-md">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px] -mr-48 -mt-48 pointer-events-none"></div>
+                <h2 class="text-4xl md:text-6xl font-bold font-display text-white mb-6 tracking-tight">Pronto para começar?</h2>
+                <p class="text-lg text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
                     Estamos prontos para transformar sua visão em um produto digital de alta performance.
                 </p>
-                
-                <div class="flex flex-col items-center gap-4">
-                    <a href="https://wa.me/5500000000000" target="_blank" class="w-full sm:w-auto max-w-[340px] px-10 py-5 bg-primary-500 text-white rounded-[10px] font-bold text-xl hover:bg-primary-600 transition-all shadow-2xl shadow-primary-500/40 font-display group flex items-center justify-center">
+                <div class="flex justify-center">
+                    <a href="https://wa.me/5500000000000" target="_blank" class="w-full sm:w-auto px-12 py-5 bg-primary-500 text-white rounded-[10px] font-bold text-xl hover:bg-primary-600 transition-all shadow-2xl shadow-primary-500/40 font-display group flex items-center justify-center">
                         Falar no WhatsApp <i data-lucide="message-circle" class="ml-3 w-7 h-7 group-hover:scale-110 transition-transform"></i>
                     </a>
                 </div>
-                
-                <p class="mt-8 text-slate-500 text-sm font-medium tracking-wide italic">atendimento em até 24h</p>
+                <p class="mt-10 text-slate-500 text-sm font-medium italic">atendimento em até 24h</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="py-12 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-[15px] flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs">
             <img src="https://i.imgur.com/zT5ylxA.png" alt="Userly" class="h-6 opacity-50 mb-4 md:mb-0" />
-            <p>&copy; <span id="year"></span> Userly - Sites Criados do Zero.</p>
+            <p>&copy; <span id="year"></span> Userly - Sites e Branding Criados do Zero.</p>
         </div>
     </footer>
 
@@ -484,8 +482,7 @@
                 <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500 border-2 border-white"></span>
             </span>
         </button>
-        
-        <div id="ai-window" class="hidden absolute bottom-20 right-0 w-[320px] h-[480px] bg-dark-900 rounded-[10px] shadow-2xl border border-white/10 flex flex-col overflow-hidden">
+        <div id="ai-window" class="hidden absolute bottom-20 right-0 w-[320px] h-[500px] bg-dark-900 rounded-[10px] shadow-2xl border border-white/10 flex flex-col overflow-hidden">
             <div class="bg-primary-500 p-4 text-white flex justify-between items-center">
                 <span class="font-bold text-sm">Assistente Userly</span>
                 <button id="ai-close"><i data-lucide="x" size="18"></i></button>
@@ -505,42 +502,69 @@
 
         // Navegação SPA
         window.navigateTo = (pageId) => {
+            const isHome = pageId === 'home';
             document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
             const targetPage = document.getElementById(`page-${pageId}`);
             if (targetPage) targetPage.classList.remove('hidden');
             
+            const heroSection = document.getElementById('hero-section');
+            const overlays = document.querySelectorAll('.content-overlay');
             const globalContato = document.getElementById('contato');
-            // Oculta a seção de contato global na visualização de serviços
-            if(pageId === 'servicos') {
-                globalContato.classList.add('hidden');
+
+            if (isHome) {
+                if(heroSection) heroSection.style.display = 'flex';
+                overlays.forEach(o => o.style.display = 'block');
+                if(globalContato) globalContato.style.display = 'block';
             } else {
-                globalContato.classList.remove('hidden');
+                if(heroSection) heroSection.style.display = 'none';
+                overlays.forEach(o => o.style.display = 'none');
+                if(globalContato) globalContato.style.display = 'none';
             }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // Background Aurora & Scroll Logic
+        // Background Aurora & Refined 3D Parallax Logic
         let startTime = Date.now();
         const animate = () => {
             const elapsed = (Date.now() - startTime) / 1000;
-            document.documentElement.style.setProperty('--bg-x', `${50 + Math.sin(elapsed * 0.15) * 45}%`);
-            document.documentElement.style.setProperty('--bg-y', `${50 + Math.cos(elapsed * 0.22) * 45}%`);
+            document.documentElement.style.setProperty('--bg-x', `${50 + Math.sin(elapsed * 0.1) * 40}%`);
+            document.documentElement.style.setProperty('--bg-y', `${50 + Math.cos(elapsed * 0.15) * 40}%`);
+            
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            
+            const heroSection = document.getElementById('hero-section');
+            if (heroSection && heroSection.style.display !== 'none') {
+                const progress = Math.min(scrollY / (viewportHeight * 0.8), 1);
+                
+                // Scale de 1.0 para 0.6
+                const scale = 1 - (progress * 0.4);
+                // Opacity de 1.0 para 0 (mais rápido para limpar o fundo para o próximo conteúdo)
+                const opacity = 1 - (progress * 1.8);
+                // Blur até 10px
+                const blur = progress * 10;
+
+                document.documentElement.style.setProperty('--hero-scale', scale);
+                document.documentElement.style.setProperty('--hero-opacity', Math.max(0, opacity));
+                document.documentElement.style.setProperty('--hero-blur', `${blur}px`);
+            }
+
             requestAnimationFrame(animate);
         };
         animate();
 
-        // Navbar Background on Scroll
+        // Navbar Effects
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 40) {
+            if (window.scrollY > 50) {
                 navbar.classList.add('nav-scrolled');
             } else {
                 navbar.classList.remove('nav-scrolled');
             }
         });
 
-        // Chatbot Lógica de Estados
+        // Chatbot Logic
         const aiToggle = document.getElementById('ai-toggle');
         const aiWindow = document.getElementById('ai-window');
         const aiClose = document.getElementById('ai-close');
@@ -582,66 +606,33 @@
         const processState = (state) => {
             switch(state) {
                 case 'initial':
-                    addMessage('bot', "👋 Oi!\nSou o assistente da Userly.\nQuer entender rapidamente se a gente consegue te ajudar?");
+                    addMessage('bot', "Olá! Sou o assistente da Userly.\nComo posso te ajudar hoje?");
                     setOptions([
                         { label: "🔹 Quero um site", state: 'want_site' },
-                        { label: "🔹 Ver serviços", state: 'view_services' },
-                        { label: "🔹 Só estou explorando", action: 'explore' }
+                        { label: "🔹 Branding / Identidade", state: 'want_branding' },
+                        { label: "🔹 Falar no WhatsApp", action: 'whatsapp' }
                     ]);
                     break;
                 case 'want_site':
-                    addMessage('bot', "Perfeito. Vamos direto ao ponto 🙂\nQue tipo de site você precisa?");
+                    addMessage('bot', "Excelente. Criamos sites do zero com foco em conversão.\nQual tipo você busca?");
                     setOptions([
-                        { label: "Site institucional", state: 'inst_lp' },
-                        { label: "Landing page", state: 'inst_lp' },
-                        { label: "E-commerce", state: 'ecomm' },
-                        { label: "Ainda não sei", state: 'dont_know' }
+                        { label: "Site institucional", state: 'finish' },
+                        { label: "Landing page", state: 'finish' },
+                        { label: "E-commerce", state: 'finish' }
                     ]);
                     break;
-                case 'inst_lp':
-                    addMessage('bot', "Ótima escolha.\nCriamos sites do zero, rápidos e prontos para crescer.\nQual o seu objetivo principal?");
+                case 'want_branding':
+                    addMessage('bot', "Branding é a fundação de tudo.\nCriamos identidades que transmitem valor e autoridade.");
                     setOptions([
-                        { label: "Gerar clientes", state: 'qualify' },
-                        { label: "Apresentar empresa", state: 'qualify' },
-                        { label: "Vender serviços", state: 'qualify' }
-                    ]);
-                    break;
-                case 'ecomm':
-                    addMessage('bot', "Legal.\nDesenvolvemos e-commerces focados em performance e UX.\nO projeto começa do zero?");
-                    setOptions([
-                        { label: "Do zero", state: 'qualify' },
-                        { label: "Ideia inicial", state: 'qualify' },
-                        { label: "Refazer site atual", state: 'qualify' }
-                    ]);
-                    break;
-                case 'dont_know':
-                    addMessage('bot', "Sem problema. Te ajudamos a definir.\nO que você quer alcançar?");
-                    setOptions([
-                        { label: "Gerar leads", state: 'qualify' },
-                        { label: "Vendas diretas", state: 'qualify' }
-                    ]);
-                    break;
-                case 'view_services':
-                    addMessage('bot', "Aqui o que fazemos:\n• Sites institucionais\n• Landing pages\n• E-commerces\n• SEO e UX\n\nQual nível faz sentido pra você?");
-                    setOptions([
-                        { label: "Site padrão", state: 'qualify' },
-                        { label: "Site avançado", state: 'qualify' },
-                        { label: "Falar com alguém", action: 'whatsapp' }
-                    ]);
-                    break;
-                case 'qualify':
-                    addMessage('bot', "Pra te orientar melhor, esse site é para:");
-                    setOptions([
-                        { label: "Empresa", state: 'finish' },
-                        { label: "Autônomo", state: 'finish' },
-                        { label: "Projeto pessoal", state: 'finish' }
+                        { label: "Saber mais", action: 'contato' },
+                        { label: "Falar com humano", action: 'whatsapp' }
                     ]);
                     break;
                 case 'finish':
-                    addMessage('bot', "Perfeito. A Userly consegue te ajudar 👍\nComo prefere seguir?");
+                    addMessage('bot', "Perfeito! A Userly é especialista nisso.\nVamos agendar um papo?");
                     setOptions([
-                        { label: "Solicitar orçamento", action: 'contato' },
-                        { label: "Falar no WhatsApp", action: 'whatsapp' }
+                        { label: "Sim, pelo WhatsApp", action: 'whatsapp' },
+                        { label: "Ver orçamentos", action: 'contato' }
                     ]);
                     break;
             }
@@ -663,15 +654,15 @@
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
                     contents: val,
-                    config: { systemInstruction: "Persona: Assistente Userly. Direto, objetivo, sem jargão. Foco: Convencer que sites do zero são melhores que templates. Sugira WhatsApp." }
+                    config: { systemInstruction: "Você é o assistente da Userly. Seja direto e encoraje o contato pelo WhatsApp." }
                 });
                 addMessage('bot', response.text);
-            } catch(e) { addMessage('bot', "Tente nosso WhatsApp para atendimento humano."); }
+            } catch(e) { addMessage('bot', "Desculpe, tente nosso WhatsApp."); }
         }
         aiSend.onclick = freeChat;
         aiInput.onkeypress = (e) => e.key === 'Enter' && freeChat();
 
-        setTimeout(() => aiPing.classList.remove('hidden'), 4000);
+        setTimeout(() => aiPing.classList.remove('hidden'), 3000);
         document.getElementById('year').textContent = new Date().getFullYear();
         lucide.createIcons();
     </script>
