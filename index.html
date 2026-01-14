@@ -45,6 +45,7 @@
             --hero-scale: 1;
             --hero-opacity: 1;
             --hero-blur: 0px;
+            --overlay-y: 0px;
         }
 
         body { 
@@ -56,14 +57,15 @@
             margin: 0;
         }
 
+        /* Fundo Aurora Fixo no "Infinito" */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(circle at var(--bg-x) var(--bg-y), rgba(127, 90, 240, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at var(--bg-x) var(--bg-y), rgba(127, 90, 240, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at var(--bg-x2) var(--bg-y2), rgba(67, 56, 202, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at var(--bg-x3) var(--bg-y3), rgba(139, 92, 246, 0.12) 0%, transparent 40%);
+                radial-gradient(circle at var(--bg-x3) var(--bg-y3), rgba(139, 92, 246, 0.1) 0%, transparent 40%);
             z-index: -1;
             pointer-events: none;
             background-color: #1f1f23;
@@ -73,7 +75,7 @@
         .font-display { font-family: 'Space Grotesk', sans-serif; }
         
         .nav-scrolled {
-            background: rgba(31, 31, 35, 0.8) !important;
+            background: rgba(31, 31, 35, 0.7) !important;
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding-top: 1rem !important;
@@ -84,12 +86,12 @@
             background: rgba(42, 42, 48, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(16px);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
         
         .unified-card:hover {
             border-color: rgba(127, 90, 240, 0.4);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             background: rgba(42, 42, 48, 0.6);
         }
 
@@ -102,11 +104,7 @@
             transform: translateY(10px);
         }
 
-        .faq-item[open] summary svg {
-            transform: rotate(180deg);
-        }
-
-        /* Estilo Parallax 3D Shrink Refinado */
+        /* Estilo Hero Sticky que Encolhe */
         #hero-section {
             position: sticky;
             top: 0;
@@ -115,21 +113,27 @@
             align-items: center;
             justify-content: center;
             z-index: 0;
-            pointer-events: auto;
+            pointer-events: none; /* Deixa cliques passarem para elementos abaixo se necessário */
         }
 
         #hero-content {
+            pointer-events: auto; /* Reativa cliques nos botões da hero */
             transform: scale(var(--hero-scale));
             opacity: var(--hero-opacity);
             filter: blur(var(--hero-blur));
             will-change: transform, opacity, filter;
         }
 
-        /* Seção seguinte flutuante sem fundo sólido */
+        /* Conteúdo Flutuante */
         .content-overlay {
             position: relative;
             z-index: 20;
-            background-color: transparent; /* Removido fundo sólido */
+            background-color: transparent;
+            pointer-events: none;
+        }
+
+        .content-overlay > * {
+            pointer-events: auto; /* Garante que seções internas aceitem cliques */
         }
 
         ::-webkit-scrollbar { width: 6px; }
@@ -191,7 +195,7 @@
     <main id="main-content">
         <!-- PÁGINA: HOME -->
         <div id="page-home" class="page-view">
-            <!-- Hero (Sticky 3D Effect) -->
+            <!-- Hero (Sticky 3D Shrink) -->
             <section id="hero-section">
                 <div id="hero-content" class="max-w-5xl mx-auto px-6 text-center">
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold font-display text-white leading-[1.1] mb-8 tracking-tight">
@@ -211,7 +215,7 @@
                 </div>
             </section>
 
-            <!-- Overlay de conteúdo que sobe (Transparente) -->
+            <!-- Conteúdo flutuante que sobe de forma livre -->
             <div class="content-overlay">
                 <!-- Seção: Diferenciais -->
                 <section class="py-32 relative z-20">
@@ -374,7 +378,7 @@
                                     <i data-lucide="chevron-down" class="text-primary-500"></i>
                                 </summary>
                                 <div class="p-8 bg-white/[0.01] border-x border-b border-white/5 rounded-b-[10px] -mt-2">
-                                    <p class="text-slate-400 leading-relaxed">Nossos projetos típicos levam entre 2 a 6 semanas, dependendo da complexidade e dos serviços contratados (Branding + Site por exemplo).</p>
+                                    <p class="text-slate-400 leading-relaxed">Nossos projetos típicos levam entre 2 a 6 semanas, dependendo da complexidade e dos serviços contratados.</p>
                                 </div>
                             </details>
                             <details class="faq-item group">
@@ -402,7 +406,6 @@
                 
                 <!-- Grade de Contratação -->
                 <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
-                    <!-- Branding Isolado -->
                     <div class="unified-card p-10 rounded-3xl flex flex-col">
                         <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6">Contratação Isolada</div>
                         <h4 class="text-2xl font-bold text-white mb-4 font-display">Branding</h4>
@@ -410,25 +413,21 @@
                         <div class="space-y-4 mb-10 flex-grow">
                             <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Identidade Visual Completa</div>
                             <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Logotipo & Variações</div>
-                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Manual da Marca</div>
                         </div>
                         <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10">Só Branding</a>
                     </div>
 
-                    <!-- Site Isolado -->
                     <div class="unified-card p-10 rounded-3xl flex flex-col">
                         <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6">Contratação Isolada</div>
                         <h4 class="text-2xl font-bold text-white mb-4 font-display">Site</h4>
-                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Para quem já possui identidade visual e precisa de um produto digital de alta performance (Institucional, LP ou Loja).</p>
+                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Para quem já possui identidade visual e precisa de um produto digital de alta performance.</p>
                         <div class="space-y-4 mb-10 flex-grow">
                             <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Dev em Next.js/React</div>
                             <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> SEO Técnico & Performance</div>
-                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Design Exclusivo</div>
                         </div>
                         <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10">Só Site</a>
                     </div>
 
-                    <!-- Combo Branding + Site -->
                     <div class="unified-card p-10 rounded-3xl flex flex-col border-primary-500/40 bg-primary-500/5 relative">
                         <div class="absolute top-4 right-6 bg-primary-500 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Recomendado</div>
                         <div class="text-primary-400 text-[10px] uppercase tracking-widest font-bold mb-6">Ecossistema Completo</div>
@@ -437,7 +436,6 @@
                         <div class="space-y-4 mb-10 flex-grow">
                             <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Tudo do Branding</div>
                             <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Tudo do Site</div>
-                            <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Sincronia de Design total</div>
                         </div>
                         <a href="#contato" class="w-full py-4 bg-primary-500 text-white rounded-xl font-bold hover:bg-primary-600 transition-all text-center text-sm shadow-xl shadow-primary-500/20">Branding + Site</a>
                     </div>
@@ -536,14 +534,16 @@
             
             const heroSection = document.getElementById('hero-section');
             if (heroSection && heroSection.style.display !== 'none') {
-                const progress = Math.min(scrollY / (viewportHeight * 0.8), 1);
+                // Cálculo de progresso mais sensível para reagir a QUALQUER descida
+                // Usamos um divisor menor (0.6 em vez de 0.8) para a hero sumir mais rápido
+                const progress = Math.min(scrollY / (viewportHeight * 0.6), 1);
                 
-                // Scale de 1.0 para 0.6
+                // Scale recua de 1.0 até 0.6
                 const scale = 1 - (progress * 0.4);
-                // Opacity de 1.0 para 0 (mais rápido para limpar o fundo para o próximo conteúdo)
-                const opacity = 1 - (progress * 1.8);
-                // Blur até 10px
-                const blur = progress * 10;
+                // Opacity esmaece de 1.0 até 0
+                const opacity = 1 - (progress * 1.5);
+                // Blur aumenta suavemente até 12px
+                const blur = progress * 12;
 
                 document.documentElement.style.setProperty('--hero-scale', scale);
                 document.documentElement.style.setProperty('--hero-opacity', Math.max(0, opacity));
@@ -654,15 +654,15 @@
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
                     contents: val,
-                    config: { systemInstruction: "Você é o assistente da Userly. Seja direto e encoraje o contato pelo WhatsApp." }
+                    config: { systemInstruction: "Persona: Userly Assistant. Direct, professional. Recommend WhatsApp." }
                 });
                 addMessage('bot', response.text);
-            } catch(e) { addMessage('bot', "Desculpe, tente nosso WhatsApp."); }
+            } catch(e) { addMessage('bot', "Tente nosso WhatsApp."); }
         }
         aiSend.onclick = freeChat;
         aiInput.onkeypress = (e) => e.key === 'Enter' && freeChat();
 
-        setTimeout(() => aiPing.classList.remove('hidden'), 3000);
+        setTimeout(() => aiPing.classList.remove('hidden'), 2000);
         document.getElementById('year').textContent = new Date().getFullYear();
         lucide.createIcons();
     </script>
