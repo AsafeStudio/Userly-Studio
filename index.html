@@ -57,7 +57,7 @@
             margin: 0;
         }
 
-        /* Fundo Aurora Fixo no "Infinito" */
+        /* Fundo Aurora Fixo */
         body::before {
             content: "";
             position: fixed;
@@ -86,13 +86,35 @@
             background: rgba(42, 42, 48, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(16px);
-            transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
         }
         
         .unified-card:hover {
             border-color: rgba(127, 90, 240, 0.4);
             transform: translateY(-8px);
             background: rgba(42, 42, 48, 0.6);
+        }
+
+        /* Destaque Ativo para Loop de Branding Refinado */
+        .branding-card {
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .branding-dim {
+            transform: scale(0.92);
+            opacity: 0.5;
+            filter: grayscale(0.5);
+        }
+
+        .branding-highlight {
+            border-color: rgba(127, 90, 240, 0.6) !important;
+            background: rgba(127, 90, 240, 0.1) !important;
+            transform: scale(1.05) !important;
+            opacity: 1 !important;
+            filter: grayscale(0);
+            box-shadow: 0 20px 40px -15px rgba(127, 90, 240, 0.4);
+            z-index: 10;
         }
 
         .page-view {
@@ -104,7 +126,7 @@
             transform: translateY(10px);
         }
 
-        /* Estilo Hero Sticky que Encolhe */
+        /* Hero Sticky */
         #hero-section {
             position: sticky;
             top: 0;
@@ -113,11 +135,11 @@
             align-items: center;
             justify-content: center;
             z-index: 0;
-            pointer-events: none; /* Deixa cliques passarem para elementos abaixo se necessário */
+            pointer-events: none;
         }
 
         #hero-content {
-            pointer-events: auto; /* Reativa cliques nos botões da hero */
+            pointer-events: auto;
             transform: scale(var(--hero-scale));
             opacity: var(--hero-opacity);
             filter: blur(var(--hero-blur));
@@ -133,7 +155,14 @@
         }
 
         .content-overlay > * {
-            pointer-events: auto; /* Garante que seções internas aceitem cliques */
+            pointer-events: auto;
+        }
+
+        /* Contador de Performance */
+        .performance-number {
+            font-variant-numeric: tabular-nums;
+            display: inline-block;
+            min-width: 1.2ch;
         }
 
         ::-webkit-scrollbar { width: 6px; }
@@ -195,7 +224,7 @@
     <main id="main-content">
         <!-- PÁGINA: HOME -->
         <div id="page-home" class="page-view">
-            <!-- Hero (Sticky 3D Shrink) -->
+            <!-- Hero -->
             <section id="hero-section">
                 <div id="hero-content" class="max-w-5xl mx-auto px-6 text-center">
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold font-display text-white leading-[1.1] mb-8 tracking-tight">
@@ -215,9 +244,8 @@
                 </div>
             </section>
 
-            <!-- Conteúdo flutuante que sobe de forma livre -->
             <div class="content-overlay">
-                <!-- Seção: Diferenciais -->
+                <!-- Diferenciais -->
                 <section class="py-32 relative z-20">
                     <div class="max-w-7xl mx-auto px-6">
                         <div class="text-center mb-20">
@@ -250,7 +278,7 @@
                     </div>
                 </section>
 
-                <!-- Seção: Branding -->
+                <!-- Branding -->
                 <section class="py-32 border-t border-white/5 relative overflow-hidden">
                     <div class="max-w-7xl mx-auto px-6 relative z-10">
                         <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -272,23 +300,23 @@
                                 </a>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="unified-card p-6 rounded-xl">
+                            <div id="branding-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="unified-card p-6 rounded-xl branding-card branding-dim">
                                     <i data-lucide="focus" class="text-primary-500 mb-4" size="24"></i>
                                     <h4 class="text-white font-bold mb-2 font-display">Conceito e Posicionamento</h4>
                                     <p class="text-slate-500 text-xs">Definição estratégica do que sua marca representa no mercado.</p>
                                 </div>
-                                <div class="unified-card p-6 rounded-xl">
+                                <div class="unified-card p-6 rounded-xl branding-card branding-dim">
                                     <i data-lucide="component" class="text-primary-500 mb-4" size="24"></i>
                                     <h4 class="text-white font-bold mb-2 font-display">Logotipo e Variações</h4>
                                     <p class="text-slate-500 text-xs">Símbolos versáteis para qualquer aplicação física ou digital.</p>
                                 </div>
-                                <div class="unified-card p-6 rounded-xl">
-                                    <i data-lucide="swatchbook" class="text-primary-500 mb-4" size="24"></i>
+                                <div class="unified-card p-6 rounded-xl branding-card branding-dim">
+                                    <i data-lucide="type" class="text-primary-500 mb-4" size="24"></i>
                                     <h4 class="text-white font-bold mb-2 font-display">Cores e Tipografia</h4>
                                     <p class="text-slate-500 text-xs">Paletas e fontes que transmitem a psicologia da sua marca.</p>
                                 </div>
-                                <div class="unified-card p-6 rounded-xl">
+                                <div class="unified-card p-6 rounded-xl branding-card branding-dim">
                                     <i data-lucide="layers" class="text-primary-500 mb-4" size="24"></i>
                                     <h4 class="text-white font-bold mb-2 font-display">Direção Visual Digital</h4>
                                     <p class="text-slate-500 text-xs">Aplicações otimizadas para redes sociais e presença web.</p>
@@ -298,7 +326,7 @@
                     </div>
                 </section>
 
-                <!-- Seção: Performance -->
+                <!-- Performance -->
                 <section class="py-32 border-y border-white/5">
                     <div class="max-w-7xl mx-auto px-6">
                         <div class="grid lg:grid-cols-5 gap-12 items-start">
@@ -338,10 +366,10 @@
                                 </div>
                             </div>
 
-                            <div class="lg:col-span-2 lg:pl-10 h-full flex flex-col justify-center">
+                            <div class="lg:col-span-2 lg:pl-10 h-full flex flex-col justify-center" id="performance-section">
                                 <div class="space-y-6">
                                     <div class="flex items-baseline gap-4">
-                                        <span class="text-8xl lg:text-9xl font-bold text-white font-display tracking-tighter">100</span>
+                                        <span id="performance-score" class="text-8xl lg:text-9xl font-bold text-white font-display tracking-tighter performance-number">0</span>
                                         <span class="text-2xl font-bold text-primary-500 font-display">/ 100</span>
                                     </div>
                                     <div class="max-w-xs">
@@ -404,41 +432,109 @@
                     <p class="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">Desenvolvimento e design de alto impacto para negócios que buscam resultados reais através de tecnologia moderna.</p>
                 </div>
                 
-                <!-- Grade de Contratação -->
+                <!-- Grade de Contratação / Planos -->
                 <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
-                    <div class="unified-card p-10 rounded-3xl flex flex-col">
-                        <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6">Contratação Isolada</div>
-                        <h4 class="text-2xl font-bold text-white mb-4 font-display">Branding</h4>
-                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Foco exclusivo na construção da sua marca. Ideal para quem já tem um site ou quer começar pela fundação visual.</p>
-                        <div class="space-y-4 mb-10 flex-grow">
-                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Identidade Visual Completa</div>
-                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Logotipo & Variações</div>
+                    <!-- Opção: Branding -->
+                    <div class="unified-card p-10 rounded-3xl flex flex-col group/service transition-all duration-500">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6 flex items-center gap-2">
+                            <span class="w-2 h-[1px] bg-slate-700"></span> Contratação Isolada
                         </div>
-                        <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10">Só Branding</a>
+                        <h4 class="text-2xl font-bold text-white mb-4 font-display group-hover/service:text-primary-400 transition-colors">Branding Estratégico</h4>
+                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Foco exclusivo na construção da sua marca. Ideal para quem já tem um site ou quer começar pela fundação visual antes do digital.</p>
+                        
+                        <div class="space-y-4 mb-10 flex-grow">
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                Identidade Visual Completa
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                Logotipo, Cores e Tipografia
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                Tom de Voz e Posicionamento
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                Manual da Marca (Brandbook)
+                            </div>
+                        </div>
+                        
+                        <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10 font-display">Solicitar Branding</a>
                     </div>
 
-                    <div class="unified-card p-10 rounded-3xl flex flex-col">
-                        <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6">Contratação Isolada</div>
-                        <h4 class="text-2xl font-bold text-white mb-4 font-display">Site</h4>
-                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Para quem já possui identidade visual e precisa de um produto digital de alta performance.</p>
-                        <div class="space-y-4 mb-10 flex-grow">
-                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> Dev em Next.js/React</div>
-                            <div class="flex items-center gap-3 text-xs text-slate-300"><i data-lucide="check-circle" class="w-4 h-4 text-primary-500"></i> SEO Técnico & Performance</div>
+                    <!-- Opção: Site -->
+                    <div class="unified-card p-10 rounded-3xl flex flex-col group/service transition-all duration-500">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-6 flex items-center gap-2">
+                            <span class="w-2 h-[1px] bg-slate-700"></span> Contratação Isolada
                         </div>
-                        <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10">Só Site</a>
+                        <h4 class="text-2xl font-bold text-white mb-4 font-display group-hover/service:text-primary-400 transition-colors">Site de Alta Performance</h4>
+                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">Para quem já possui identidade visual e precisa de um produto digital rápido, seguro e focado em conversão.</p>
+                        
+                        <div class="space-y-4 mb-10 flex-grow">
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                Desenvolvimento Next.js / React
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                SEO Técnico & Velocidade Máxima
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                UX Design & Mobile-First
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/10 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-primary-500"></i></div>
+                                Integrações e Analytics
+                            </div>
+                        </div>
+                        
+                        <a href="#contato" class="w-full py-4 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all text-center text-sm border border-white/10 font-display">Solicitar Site</a>
                     </div>
 
-                    <div class="unified-card p-10 rounded-3xl flex flex-col border-primary-500/40 bg-primary-500/5 relative">
-                        <div class="absolute top-4 right-6 bg-primary-500 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Recomendado</div>
-                        <div class="text-primary-400 text-[10px] uppercase tracking-widest font-bold mb-6">Ecossistema Completo</div>
+                    <!-- Opção: Branding + Site (Combo) -->
+                    <div class="unified-card p-10 rounded-3xl flex flex-col border-primary-500/40 bg-primary-500/5 relative group/service overflow-hidden transition-all duration-500 scale-105 shadow-2xl shadow-primary-500/10">
+                        <div class="absolute top-4 right-6 bg-primary-500 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest z-10">Recomendado</div>
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/10 rounded-full blur-2xl -mr-16 -mt-16"></div>
+                        
+                        <div class="text-primary-400 text-[10px] uppercase tracking-widest font-bold mb-6 flex items-center gap-2">
+                            <span class="w-2 h-[1px] bg-primary-500/50"></span> Ecossistema Completo
+                        </div>
                         <h4 class="text-2xl font-bold text-white mb-4 font-display">Branding + Site</h4>
-                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">A solução definitiva. Unificamos a criação da marca com o desenvolvimento para total consistência visual.</p>
+                        <p class="text-slate-400 text-sm mb-8 leading-relaxed">A solução definitiva. Unificamos a criação da marca com o desenvolvimento para total consistência visual e estratégia de mercado.</p>
+                        
                         <div class="space-y-4 mb-10 flex-grow">
-                            <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Tudo do Branding</div>
-                            <div class="flex items-center gap-3 text-xs text-white"><i data-lucide="sparkles" class="w-4 h-4 text-primary-400"></i> Tudo do Site</div>
+                            <div class="flex items-center gap-3 text-xs text-white">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/20 flex items-center justify-center"><i data-lucide="sparkles" class="w-3 h-3 text-primary-400"></i></div>
+                                Tudo do Branding Estratégico
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-white">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/20 flex items-center justify-center"><i data-lucide="sparkles" class="w-3 h-3 text-primary-400"></i></div>
+                                Tudo do Site de Alta Performance
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-white">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/20 flex items-center justify-center"><i data-lucide="sparkles" class="w-3 h-3 text-primary-400"></i></div>
+                                Design Integrado 360º
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-white font-bold">
+                                <div class="w-5 h-5 rounded-full bg-primary-500/30 flex items-center justify-center"><i data-lucide="plus" class="w-3 h-3 text-primary-400"></i></div>
+                                Consultoria de Presença Digital
+                            </div>
                         </div>
-                        <a href="#contato" class="w-full py-4 bg-primary-500 text-white rounded-xl font-bold hover:bg-primary-600 transition-all text-center text-sm shadow-xl shadow-primary-500/20">Branding + Site</a>
+                        
+                        <a href="#contato" class="w-full py-5 bg-primary-500 text-white rounded-xl font-bold hover:bg-primary-600 transition-all text-center text-sm shadow-xl shadow-primary-500/20 font-display">Solicitar Ecossistema</a>
                     </div>
+                </div>
+
+                <!-- Resumo Adicional -->
+                <div class="max-w-4xl mx-auto text-center py-20 border-t border-white/5">
+                    <h3 class="text-xl font-bold text-white mb-6 font-display">Precisa de algo mais específico?</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Também trabalhamos com parcerias White-Label para agências e desenvolvimento de Dashboards sob medida. Entre em contato para um orçamento personalizado.</p>
+                    <a href="#contato" class="text-primary-400 font-bold hover:text-primary-300 transition-colors flex items-center justify-center gap-2">
+                        Ver outras soluções <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -451,7 +547,7 @@
                 <div class="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px] -mr-48 -mt-48 pointer-events-none"></div>
                 <h2 class="text-4xl md:text-6xl font-bold font-display text-white mb-6 tracking-tight">Pronto para começar?</h2>
                 <p class="text-lg text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                    Estamos prontos para transformar sua visão em um produto digital de alta performance.
+                    Estamos prontos para transformar sua visão em um product digital de alta performance.
                 </p>
                 <div class="flex justify-center">
                     <a href="https://wa.me/5500000000000" target="_blank" class="w-full sm:w-auto px-12 py-5 bg-primary-500 text-white rounded-[10px] font-bold text-xl hover:bg-primary-600 transition-all shadow-2xl shadow-primary-500/40 font-display group flex items-center justify-center">
@@ -522,27 +618,21 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // Background Aurora & Refined 3D Parallax Logic
+        // Background Aurora & 3D Parallax - Mais rápido e fluído
         let startTime = Date.now();
         const animate = () => {
             const elapsed = (Date.now() - startTime) / 1000;
-            document.documentElement.style.setProperty('--bg-x', `${50 + Math.sin(elapsed * 0.1) * 40}%`);
-            document.documentElement.style.setProperty('--bg-y', `${50 + Math.cos(elapsed * 0.15) * 40}%`);
+            document.documentElement.style.setProperty('--bg-x', `${50 + Math.sin(elapsed * 0.2) * 40}%`);
+            document.documentElement.style.setProperty('--bg-y', `${50 + Math.cos(elapsed * 0.25) * 40}%`);
             
             const scrollY = window.scrollY;
             const viewportHeight = window.innerHeight;
             
             const heroSection = document.getElementById('hero-section');
             if (heroSection && heroSection.style.display !== 'none') {
-                // Cálculo de progresso mais sensível para reagir a QUALQUER descida
-                // Usamos um divisor menor (0.6 em vez de 0.8) para a hero sumir mais rápido
                 const progress = Math.min(scrollY / (viewportHeight * 0.6), 1);
-                
-                // Scale recua de 1.0 até 0.6
                 const scale = 1 - (progress * 0.4);
-                // Opacity esmaece de 1.0 até 0
                 const opacity = 1 - (progress * 1.5);
-                // Blur aumenta suavemente até 12px
                 const blur = progress * 12;
 
                 document.documentElement.style.setProperty('--hero-scale', scale);
@@ -554,6 +644,80 @@
         };
         animate();
 
+        // Loop de Destaque para Cards de Branding Refinado
+        const brandingCards = document.querySelectorAll('.branding-card');
+        let currentHighlightIndex = 0;
+        let isPaused = false;
+        
+        const updateBrandingHighlight = () => {
+            brandingCards.forEach((card, idx) => {
+                if (idx === currentHighlightIndex) {
+                    card.classList.add('branding-highlight');
+                    card.classList.remove('branding-dim');
+                } else {
+                    card.classList.remove('branding-highlight');
+                    card.classList.add('branding-dim');
+                }
+            });
+        };
+
+        const cycleHighlights = () => {
+            if (!isPaused) {
+                currentHighlightIndex = (currentHighlightIndex + 1) % brandingCards.length;
+                updateBrandingHighlight();
+            }
+        };
+
+        // Inicia o loop (1.0s)
+        let brandingInterval = setInterval(cycleHighlights, 1000);
+
+        // Destacar no hover e pausar loop
+        brandingCards.forEach((card, idx) => {
+            card.addEventListener('mouseenter', () => {
+                isPaused = true;
+                currentHighlightIndex = idx;
+                updateBrandingHighlight();
+            });
+            card.addEventListener('mouseleave', () => {
+                isPaused = false;
+            });
+        });
+
+        // Inicializa estado dos cards
+        updateBrandingHighlight();
+
+        // Contador de Performance (0 a 100)
+        const scoreEl = document.getElementById('performance-score');
+        let hasAnimated = false;
+        
+        const animateScore = (target) => {
+            let current = 0;
+            const duration = 1000; 
+            const startTime = performance.now();
+            
+            const step = (now) => {
+                const progress = Math.min((now - startTime) / duration, 1);
+                current = Math.floor(progress * target);
+                scoreEl.textContent = current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            };
+            requestAnimationFrame(step);
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !hasAnimated) {
+                animateScore(100);
+                hasAnimated = true;
+            }
+        }, { threshold: 0.5 });
+
+        if(document.getElementById('performance-section')) {
+            observer.observe(document.getElementById('performance-section'));
+        }
+
         // Navbar Effects
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
@@ -564,7 +728,7 @@
             }
         });
 
-        // Chatbot Logic
+        // Chatbot
         const aiToggle = document.getElementById('ai-toggle');
         const aiWindow = document.getElementById('ai-window');
         const aiClose = document.getElementById('ai-close');
@@ -654,7 +818,7 @@
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
                     contents: val,
-                    config: { systemInstruction: "Persona: Userly Assistant. Direct, professional. Recommend WhatsApp." }
+                    config: { systemInstruction: "Persona: Userly Assistant. Recommend WhatsApp." }
                 });
                 addMessage('bot', response.text);
             } catch(e) { addMessage('bot', "Tente nosso WhatsApp."); }
